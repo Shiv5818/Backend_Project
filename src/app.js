@@ -1,12 +1,15 @@
 import express from "express" // This imports the Express library into your project
 import cors from "cors"
 import cookieParser from "cookie-parser"
-const app = express();
-/*This creates an Express application instance
 
+
+const app = express();
+
+/*This creates an Express application instance
 express() is a function
 It returns an app object
 */
+
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,

@@ -1,1 +1,2 @@
-export const DB_NAME = "Kaushik_Database"
+export const DB_NAME = "AmazonBackend"
+

@@ -2,8 +2,19 @@
 .env
 .env.*
 
+# we don't change the codes of the modules because it is the code written by the 
+#third party and this could lead to many errors and many times modules packeges 
+#have millions of files and packages if prettier scan this your computer gonna suffer 
 /node_modules
+
 /.vscode
+
+#This folder contains:
+#editor settings
+#extension configs
+#workspace configs
+
+
 ./dist
 
-
+#dist usually means:distribution/build output folder
