@@ -7,9 +7,28 @@ dotenv.config({
     path:'./.env'
 }) // this loads new variable from the file 
 // find meaning of config here 
+// whenever the  async methods complets  it  returns the promise  too and we are using .then() and catch because of that
 
-connectDB();
 
+connectDB()
+
+.then(()=>{
+// write code here for app.error too
+ app.on("error",(error)=>{
+        console.log("Error:",error);
+        throw error;
+     })
+    // database is connected now we have to liste to it 
+    app.listen(process.env.PORT || 8000,()=>{ // 8000 is default port
+        console.log(`server is running at PORT ${process.env.PORT}`);
+    }) // this or conditions protects our code from crashing on the server if unable to find the port 
+
+    
+})
+.catch((erorr)=>{
+    console.log("MONGO DB connection failed :", error);
+
+})
 
 
 
