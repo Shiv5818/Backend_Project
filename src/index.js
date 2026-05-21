@@ -2,7 +2,9 @@ import dotenv from "dotenv" // loads environment variables from the .env file
 import mongoose from "mongoose";
 import connectDB from "./db/index.js";
 // require('dotenv).config({path : './env'}) this will also work but it affects the consistency of our code 
+import express from "express"
 
+const app = express()
 dotenv.config({
     path:'./.env'
 }) // this loads new variable from the file 
@@ -25,9 +27,8 @@ connectDB()
 
     
 })
-.catch((erorr)=>{
-    console.log("MONGO DB connection failed :", error);
-
+.catch((error)=>{
+    console.log("MONGO DB connection failed:",error);
 })
 
 
