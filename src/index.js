@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import connectDB from "./db/index.js";
 // require('dotenv).config({path : './env'}) this will also work but it affects the consistency of our code 
 import express from "express"
+import {app} from './app.js'
 
-const app = express()
 dotenv.config({
     path:'./.env'
 }) // this loads new variable from the file 
