@@ -1,18 +1,18 @@
 import dotenv from "dotenv" // loads environment variables from the .env file 
 import mongoose from "mongoose";
 import connectDB from "./db/index.js";
-// require('dotenv).config({path : './env'}) this will also work but it affects the consistency of our code 
+// require('dotenv').config({path : './env'}) this will also work but it affects the consistency of our code 
 import express from "express"
 import {app} from './app.js'
 
-dotenv.config({
-    path:'./.env'
-}) // this loads new variable from the file 
+dotenv.config(
+    { path:'./.env'}
+) // this loads new variable from the file 
 // find meaning of config here 
 // whenever the  async methods complets  it  returns the promise  too and we are using .then() and catch because of that
-
-
-connectDB()
+// this function laods .env
+// if we do console.log(`{process.env.PORT}`) it will throw an error 
+connectDB() // calling the function from db folder 
 
 .then(()=>{
 // write code here for app.error too
@@ -22,8 +22,10 @@ connectDB()
      })
     // database is connected now we have to liste to it 
     app.listen(process.env.PORT || 8000,()=>{ // 8000 is default port
+  // this or conditions protects our code from crashing on the server if unable to find the port 
         console.log(`server is running at PORT ${process.env.PORT}`);
-    }) // this or conditions protects our code from crashing on the server if unable to find the port 
+    }) 
+ 
 
     
 })

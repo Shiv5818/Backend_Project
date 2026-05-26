@@ -1,7 +1,8 @@
 import express from "express" // This imports the Express library into your project
 import cors from "cors"
+// import middleware packages(cors) this core headers to responses 
 import cookieParser from "cookie-parser"
-
+// imports middleware for parsing cookies 
 
 const app = express();
 
@@ -14,6 +15,7 @@ It returns an app object
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials : true
+    // this means allow resposnse from this CORS_ORIGIN
 }))
 
 app.use(express.json({limit:"16kb"}))
