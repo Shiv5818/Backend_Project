@@ -71,7 +71,7 @@ username :{
 userSchema.pre("save",async function (next) {
     // we need to write the condition here so that we dont encrypt the password only when the password is created ,modified or updated
     if(!this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password,10 ) // 10 is number of hash round you can change it yourself
+    this.password = await bcrypt.hash(this.password,10 ) // 10 is number of hash round you can change it yourself
     next();
 })
 
