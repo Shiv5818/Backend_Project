@@ -11,8 +11,8 @@ import jwt from  "jsonwebtoken";
  const userSchema = new Schema(
 {
 
-username :{ 
-    type:String, 
+userName :{ 
+    type: String, 
     required: true,
     unique: true,
     lowercase: true,
@@ -83,8 +83,8 @@ userSchema.methods.generateAccessToken = function(){
   return  jwt.sign({
         _id: this_id,
         email:this.email,
-        username = this.username,
-        fullname = this.fullName
+        userName: this.userName,
+        fullName : this.fullName
 
     },
     process.env.ACCESS_TOKEN_SECRET,

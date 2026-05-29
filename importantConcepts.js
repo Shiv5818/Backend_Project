@@ -9,3 +9,8 @@ Browsers, Node.js, MongoDB drivers all use this system.
 | `#`       | `%23`    |
 
 */
+
+// Access token VS Refresh Token
+/*
+Access Token is Short lived 
+Refresh Token is comparatively long lived

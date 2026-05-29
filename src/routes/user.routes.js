@@ -18,6 +18,10 @@ router.route("/register").post(
     registerUser
 );
 
+router.route("/login").post(loginUser)   // we are using post because we are taking info
+// secured routes
+
+router.route("./logout").post(verifyJWT, logoutUser)
 //router.route("/login").post(registerUser);
 export default router;
 
