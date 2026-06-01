@@ -11,9 +11,11 @@ dotenv.config(
 // find meaning of config here 
 // whenever the  async methods complets  it  returns the promise  too and we are using .then() and catch because of that
 // this function laods .env
-// if we do console.log(`{process.env.PORT}`) it will throw an error 
-connectDB() // calling the function from db folder 
+// if we do console.log(`{process.env.PORT}`) it will throw an error  to do this write console.log(`${process.env.PORT}`)
 
+
+connectDB() // calling the function from db folder 
+// whenever the  async methods complets  it  returns the promise  too and we are using .then() and catch because of that
 .then(()=>{
 // write code here for app.error too
  app.on("error",(error)=>{
@@ -29,17 +31,24 @@ connectDB() // calling the function from db folder
 
     
 })
+
+
 .catch((error)=>{
     console.log("MONGO DB connection failed:",error);
 })
 
+// above both the error caught by .catch( ) and app.on are different 
+/*
+case -1 .catch() it is for the promise rejected causes:
+ Wrong Mongo URL
+Internet down
+Mongo server down
 
-
-
-
-
-
-
+case-2 :Server starts successfully.Database connected. Everything good.Then later:
+Port issue
+Server error
+Runtime event
+*/
 
 
 

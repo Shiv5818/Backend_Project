@@ -1,13 +1,14 @@
- import mongoose, {Schema} from "mongoose";
+import mongoose, {Schema} from "mongoose"; // Schema define the structure of the object stored
 // bcrypt is a library that help us to hash the password  so that we can encrypt and decrypt without any hustles
 import bcrypt from "bcrypt"
 
 // jwt is a bearer token : that means who bears it he is correct its like a key the one with the jwt have the access
 // some people are concerned abt its security but it is very secured 
-import jwt from  "jsonwebtoken";
+import jwt from  "jsonwebtoken"; // used for the authentication purposes 
 
 
 // payload : simply means data
+
  const userSchema = new Schema(
 {
 
@@ -16,8 +17,9 @@ userName :{
     required: true,
     unique: true,
     lowercase: true,
-    trim :true,
+    trim :true, // "   shiv   "  =>  "shiv"
     index: true // searching field enable krni ho toh => optimize ho jata hai isse
+    //MongoDB creates lookup structure.Search faster.
    },
 
    email:{
@@ -50,9 +52,9 @@ userName :{
     ref: "Video"
    },
 
-   passowrd:{
+   password:{
     type: String,
-    required: [true,'Passoword is required'] // jitne bhi true field hai sab pe kr skte
+    required: [true,'Password is required'] // jitne bhi true field hai sab pe kr skte
 
    },
 
@@ -70,18 +72,22 @@ userName :{
 // it is a middleware so we next in this 
 userSchema.pre("save",async function (next) {
     // we need to write the condition here so that we dont encrypt the password only when the password is created ,modified or updated
-    if(!this.isModified("password")) return next();
+    if(!this.isModified("password")) return next(); // we are gonna bcrypt it only when the password is changed if any other detail of user is changed there is no means of changing the password 
+  
     this.password = await bcrypt.hash(this.password,10 ) // 10 is number of hash round you can change it yourself
     next();
 })
 
 userSchema.methods.isPassowrdCorrect = async function (password){
- return  await bcrypt.compare(passwors,this.password) // this.password is the encrypted password
+ return  await bcrypt.compare(password,this.password) // this.password is the encrypted password and the password is the password that user has typed 
 }
+
+
+
 
 userSchema.methods.generateAccessToken = function(){
   return  jwt.sign({
-        _id: this_id,
+        _id: this._id,
         email:this.email,
         userName: this.userName,
         fullName : this.fullName
@@ -94,11 +100,12 @@ userSchema.methods.generateAccessToken = function(){
 
 )
 }
+
+
 userSchema.methods.generateRefreshToken = function (){
       return  jwt.sign({
-        _id: this_id,
+        _id: this._id,
     
-
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
