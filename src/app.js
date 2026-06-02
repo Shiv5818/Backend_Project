@@ -39,7 +39,18 @@ import userRouter from './routes/user.routes.js';
 
 app.use("/api/v1/users",userRouter);
 
+// global erorr handler when like multer or anything else fails to upload and controller never gets executed 
+app.use((err, req, res, next) => {
 
+    console.error("ERROR:", err);
+
+    return res.status(err.statusCode || 500).json({
+        success: false,
+        message: err.message || "Internal Server Error",
+        errors: err.errors || [],
+        data: null,
+    });
+});
 
 export {app};
 

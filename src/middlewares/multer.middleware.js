@@ -9,8 +9,30 @@ const storage = multer.diskStorage({
   }
 })
 // storage is a method
-export const upload = multer({
-    storage,
-})
+export const upload = multer({storage})
 
 
+/*
+multer does NOT validate:
+File exists?
+File size?
+File type?
+Avatar required?
+Cover image required?
+What If Upload Fails?
+
+Interesting question.
+
+Suppose:
+
+Disk full
+Folder missing
+Permission denied
+Multer throws error.
+
+Example:
+MulterError
+or
+ENOENT
+then controller never executed 
+*/
