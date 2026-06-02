@@ -13,19 +13,25 @@ export {asyncHandler}
 
 
 
-// this is the method to do with try and catch both are correct you can use any of those 
-    /*
-const asyncHandler = (func) => async( req,res,next)=>{
+// this is the method to do with try and catch both are correct you can use any of those at the production level
+
+
+ /*
+
+
+const asyncHandler = (func) => async(req,res,next)=>{
     try {
      await func(req,res,next)
     }
     catch(error){
-        // this is the response for the error and we are sending the stautus 
+     // this is the response for the error and we are sending the status 
      res.status(error.code || 500).json({
         success: false,
         message : error.message
      })
     }
 }
+
+
 
 */
