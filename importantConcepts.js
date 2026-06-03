@@ -14,3 +14,7 @@ Browsers, Node.js, MongoDB drivers all use this system.
 /*
 Access Token is Short lived 
 Refresh Token is comparatively long lived
+
+// Access Token and the Refresh Token
+AT: it is short lived
+RT: it is saved in the database and long lived 

@@ -3,7 +3,8 @@ import { ApiError } from  "../utils/ApiError.js";
 import {User} from  "../modeles/user.model.js" // find out why we are inporting like this why cant default 
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/APiResponse.js";
-
+import jwt from "jsonwebtoken"
+// not adding  .js to the files  sometimes  gives you error so it is preffered to add .js
 const generateAccessAndRefreshTokens = async(userId) => {
   try {
    await User.findById(userId)
@@ -206,10 +207,56 @@ const logOutUser = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,{},"User logged out "))
 })
 
+
+const refreshAccessToken = asyncHandler(async(req,res)=>{
+ const incomingRefreshToken =  req.cookies.refreshToken || req.body.refreshTokenefreshToken;
+
+ if(!incomingRefreshToken)  throw new ApiError(401,"unauthorized request as you have incorrect token");
+
+try {
+  const decodedToken =  jwt.verify(incomingRefreshToken,process.env.RERESH_TOKEN_SECRET) // this method is taking two parameters
+  
+  const user = await User.findById(decodedToken?._id);
+  
+  if(!user)  throw new ApiError(401,"invalid refresh token");
+  
+  if(incomingRefreshToken !==user?.refreshToken){
+    throw new ApiError(401,"Refresh token is expired or used");
+  }
+  
+  const options = {
+    httpOnly: true,
+    secure: true
+  }
+  
+  
+  const {accessToken,refreshToken } = await generateAccessAndRefreshTokens(user._id)
+   
+  
+  return res
+  .status(208)
+  .cookie("accessToken", accessToken,options )
+  .cookie("refreshToken",newRefreshToken,options)
+  .json(
+    new ApiResponse(
+      200,
+      {accessToken,refreshToken:newRefreshToken},
+      "Access token refreshed"
+    )
+  )
+} catch (error) {
+   throw new ApiError(401,error?.message ||"invalid message token")
+}
+
+
+})
+
+
 export {
   registerUser,
   loginUser,
-  logOutUser
+  logOutUser,
+  refreshAccessToken
 };
 
 //NOTE sometimes there would be a situation where you will be usinf the req , next but not the res like in

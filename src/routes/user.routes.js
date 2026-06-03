@@ -1,6 +1,6 @@
 import {Router} from "express";
 // you have to import thr router from the express 
-import  {registerUser} from "../controller/user.controller.js"
+import  {registerUser,loginUser,logoutUser,refreshAccessToken} from "../controller/user.controller.js"
 
 import {upload} from "../middlewares/multer.middleware.js"
 
@@ -29,6 +29,8 @@ router.route("/login")
 router.route("./logout")
       .post(verifyJWT, logoutUser)
 //router.route("/login").post(registerUser);
+
+router.route("/refresh-token").post(refreshAccessToken)
 export default router;
 
 /*c
