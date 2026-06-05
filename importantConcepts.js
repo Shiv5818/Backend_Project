@@ -18,3 +18,7 @@ Refresh Token is comparatively long lived
 // Access Token and the Refresh Token
 AT: it is short lived
 RT: it is saved in the database and long lived 
+
+Aggregation Pipelines: each stage performs an operation on the input dovumentd 
+the document that are output to one stage are input to another stage 
+*/

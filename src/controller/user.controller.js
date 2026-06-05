@@ -376,6 +376,88 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
 })
 
 
+const getUserChannelProfile= asyncHandler(async(req,res)=>{
+   const {username} = req.params // getting values from the url 
+
+   if(!username?.trim()){
+     throw new ApiError(400,"username is missing");
+
+   }
+
+
+ const channel =  await  User.aggregate([
+  {
+    $match:{
+      username : username?.toLowerCase()
+    }
+  },
+    {
+      $lookup:{
+        from: "subscriptions",
+        localField: "_id",
+        foreignField : "channel",
+        as: "subscribers"
+      }
+    },
+
+    {
+      $lookup:{
+        from: "subscriptions",
+        localField: "_id",
+        foreignField : "subscriber",
+        as: "subscribedTo"
+      }
+    },
+
+    {
+      $addFields:{
+        subscribersCount:{
+          $size:"$subscribers"
+        },
+        channelsSubscribedToCount:{
+           $size: "$subscribedTo"
+        },
+        isSubscribed:{
+          $cond:{
+            if:{$in:[req.user?._id,"$subscribers.subscriber"]},
+            then: true,
+            else : false,
+          }
+        }
+      }
+    },{
+      $project: {
+        fullName: 1,
+        username: 1,
+        subscribersCount: 1,
+        channelsSubscribedToCount:1, // here 1 means true
+        isSubscribed:1,
+        email:1,
+        avatar:1,
+        coverImage:1
+
+
+      }
+    }
+  
+ ])
+ if(!channel?.length){{
+  throw new ApiError(404,"channel does not exist")
+ }}
+
+ return res
+ .status(200)
+ .json(
+  new ApiResponse(200,channel[0],"User channel fetched successfully")
+ )
+
+
+})
+
+
+
+
+
 export {
   registerUser,
   loginUser,
@@ -385,9 +467,12 @@ export {
   getCurrentUser,
   updateAccountDetails,
   updateUserAvatar,
-  updateUserCoverImage
+  updateUserCoverImage,
+  getUserChannelProfile,
 };
 
 //NOTE sometimes there would be a situation where you will be usinf the req , next but not the res like in
 // asyncHandler(async (req,res,next)=>{}) so you can simply write res to _ it is a practice you can do it 
 // asyncHandler(async (req,_,next)=>{}) 
+
+  
